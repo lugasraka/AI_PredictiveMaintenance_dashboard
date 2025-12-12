@@ -24,7 +24,7 @@ st.markdown("""
 This model learns a precise non-linear boundary around 'healthy' equipment states.
 When the equipment operates outside this boundary, an alert is triggered with specific maintenance recommendations.
 
-*Built by Raka Adrianto | December 2025*
+*Built by [Raka Adrianto](https://www.linkedin.com/in/lugasraka/?) | December 2025*
 
 ---
 
@@ -350,5 +350,6 @@ if model:
                     st.info(rec, icon="✅")
     else:
         st.success("✅ No issues detected. Equipment operating within normal parameters.")
+
 
     st.divider()
