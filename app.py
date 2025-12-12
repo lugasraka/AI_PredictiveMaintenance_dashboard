@@ -60,7 +60,7 @@ with st.expander("📚 Dataset & Experimentations", expanded=False):
     **Experimentation Notes:**
     - **[Isolation Forest](https://en.wikipedia.org/wiki/Isolation_forest)**: An ensemble method that isolates anomalies by randomly selecting features and split values, effective for high-dimensional data.
     - **[Local Outlier Factor](https://en.wikipedia.org/wiki/Local_outlier_factor)**: A density-based algorithm that compares the local density of points to identify local outliers in a dataset.
-    - **[One-Class SVM](https://en.wikipedia.org/wiki/Support_vector_machine#One-class_SVM)**: Learns a boundary around normal data points and flags anything outside as anomalous, excellent at capturing non-linear patterns.
+    - **[One-Class SVM](https://en.wikipedia.org/wiki/Support_vector_machine#One-class_SVM)**: Learns a boundary around normal data points and flags anything outside as anomalous, excellent at capturing non-linear patterns. **USED IN THIS DEMO.**
     
     One-Class SVM provided the best balance of detection accuracy and interpretability for this dataset. For data enthusiasts, feel free to modify the model parameters in the [Jupyter notebook](https://colab.research.google.com/drive/1IMA_gA589DMr5fxneNDWjxmidPm0r2kK?usp=sharing)
     """)
@@ -353,3 +353,4 @@ if model:
 
 
     st.divider()
+
