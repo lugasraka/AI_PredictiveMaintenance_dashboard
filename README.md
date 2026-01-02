@@ -5,6 +5,8 @@
 [![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://ai-predictive-maintenance-dashboard.streamlit.app/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
+## 🚀 [**Try the Live Demo**](https://ai-predictive-maintenance-dashboard.streamlit.app/)
+
 ---
 
 ## 📖 Table of Contents
@@ -422,6 +424,7 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 ---
 
 **⭐ If you found this project helpful, please consider giving it a star!**
+
 
 
 
