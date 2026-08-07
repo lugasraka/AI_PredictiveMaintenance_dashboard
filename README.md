@@ -1,23 +1,29 @@
-# 🏢 AI for Predictive Maintenance
+# AI for Predictive Maintenance
 
-A Streamlit dashboard that flags failing industrial equipment using a One-Class SVM trained on the AI4I 2020 dataset.
+A Streamlit dashboard that flags industrial equipment likely to fail using a One-Class SVM trained on the AI4I 2020 dataset.
 
 [![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://ai-predictive-maintenance-dashboard.streamlit.app/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-## 🚀 [Try the Live Demo](https://ai-predictive-maintenance-dashboard.streamlit.app/)
+## [Try the Live Demo](https://ai-predictive-maintenance-dashboard.streamlit.app/)
 
 ## Contents
 
-- [What it is](#what-it-is)
-- [Who it's for](#who-its-for)
-- [Why it matters](#why-it-matters)
-- [How it works](#how-it-works)
-- [Run it locally](#run-it-locally)
+- [AI for Predictive Maintenance](#ai-for-predictive-maintenance)
+  - [Try the Live Demo](#try-the-live-demo)
+  - [Contents](#contents)
+  - [What it is](#what-it-is)
+  - [Who it's for](#who-its-for)
+  - [Why it matters](#why-it-matters)
+  - [How it works](#how-it-works)
+  - [Run it locally](#run-it-locally)
+    - [Project structure](#project-structure)
+  - [Notes](#notes)
+  - [Contact](#contact)
 
 ## What it is
 
-The dashboard watches five sensor readings — air temperature, process temperature, rotational speed, torque, and tool wear — and flags records that look unlike normal operation. A health gauge shows how close the current reading is to the failure boundary, and a feature panel points at the sensor most likely to blame.
+The dashboard watches five sensor readings: air temperature, process temperature, rotational speed, torque, and tool wear. It flags records that look unlike normal operation, shows how close the current reading is to the failure boundary, and points to the sensor most likely to blame.
 
 It's built with Streamlit, Plotly, and scikit-learn, and runs on the AI4I 2020 dataset from the UCI Machine Learning Repository. The trained model is bundled with the app, so the demo loads with no setup.
 
@@ -25,15 +31,15 @@ It's built with Streamlit, Plotly, and scikit-learn, and runs on the AI4I 2020 d
 
 ![User Personas](2%20Personas.png)
 
-**Facility managers** running plants or large buildings with critical HVAC and motor equipment. They want to know which assets are likely to fail in the next few weeks, not which ones passed inspection last month. The dashboard gives them a live read on equipment health and a short list of what to look at first.
+**Facility managers** run plants or large buildings with critical HVAC and motor equipment. They want to know which assets are likely to fail in the next few weeks, not which ones passed inspection last month. The dashboard gives them a live read on equipment health and a short list of what to inspect first.
 
-**Maintenance technicians** who get sent to fix things. They want a clear, specific signal before they walk up to the machine — "high torque, low RPM, check bearings" is more useful than "anomaly detected." The dashboard's feature attribution panel is built around that use case.
+**Maintenance technicians** get sent to fix things. They want a clear, specific signal before they walk up to the machine: "high torque, low RPM, check bearings" is more useful than "anomaly detected." The dashboard's feature attribution panel names the sensor to check first.
 
 ## Why it matters
 
 Unplanned downtime is expensive. A single motor failure on a production line can cost tens of thousands of dollars in lost output, emergency repair labor, and cascading damage to other equipment. Preventive maintenance helps, but it sends people to inspect machines that don't need attention and still misses failures that happen between scheduled visits.
 
-Predictive maintenance sits in the middle. Sensors are already on the equipment. The question is whether anyone is reading them with the right model.
+Predictive maintenance sits in the middle. Sensors are already on the equipment. The missing piece is a model that can read those signals between scheduled visits.
 
 A rough estimate for a mid-sized facility with 500 critical assets:
 
@@ -43,13 +49,13 @@ A rough estimate for a mid-sized facility with 500 critical assets:
 | Emergency repair costs | ~$150K | ~$40K |
 | Net annual benefit | — | ~$200K |
 
-These numbers are illustrative — actual savings depend on the facility, the equipment, and how well the alerts feed into the maintenance workflow.
+These numbers are illustrative. Actual savings depend on the facility, the equipment, and how well the alerts feed into the maintenance workflow.
 
 ## How it works
 
-**Dataset.** The AI4I 2020 Predictive Maintenance Dataset from the UCI Machine Learning Repository (Matzka, 2020). 10,000 records, five physical sensor features, and a ground-truth failure label used only for evaluation. Failures are rare — about 3.4% of the data — which is why a supervised classifier trained on the raw labels would overfit to "no failure" almost every time.
+**Dataset.** The AI4I 2020 Predictive Maintenance Dataset comes from the UCI Machine Learning Repository (Matzka, 2020). It contains 10,000 records, five physical sensor features, and a ground-truth failure label used only for evaluation. Failures make up about 3.4% of the data, so a supervised classifier trained on the raw labels would overfit to "no failure" almost every time.
 
-**Approach.** Unsupervised anomaly detection. The model sees only healthy records during training and learns the boundary of normal operation. Anything outside that boundary is flagged. This avoids the label problem entirely and works on equipment with no failure history.
+**Approach.** The model uses unsupervised anomaly detection. It sees only healthy records during training and learns the boundary of normal operation. Anything outside that boundary is flagged. This avoids the label problem and works on equipment with no failure history.
 
 Three algorithms were tested: Isolation Forest, Local Outlier Factor, and One-Class SVM with an RBF kernel. All three were trained with a contamination parameter of 3.4% to match the expected outlier rate. Predictions were scored against the held-out ground truth labels.
 
@@ -61,7 +67,7 @@ Three algorithms were tested: Isolation Forest, Local Outlier Factor, and One-Cl
 | Local Outlier Factor | 0.561 | 0.132 | 0.214 | ~0.5s |
 | **One-Class SVM** | **0.694** | **0.139** | **0.232** | ~1.2s |
 
-The RBF kernel picks up non-linear failure patterns (high torque combined with low RPM, for example) that the tree-based methods miss. The recall is high enough to be useful in a real maintenance workflow, and the training cost is a one-time hit on a 10,000-row dataset.
+The RBF kernel picks up non-linear failure patterns, such as high torque combined with low RPM, that the tree-based methods miss. The recall is high enough to be useful in a real maintenance workflow, and training takes about 1.2 seconds on this 10,000-row dataset.
 
 ## Run it locally
 
@@ -100,7 +106,7 @@ The app opens at `http://localhost:8501`.
 jupyter notebook AI4PredictiveBuildings.ipynb
 ```
 
-The notebook has the full model exploration — feature scaling, parameter tuning, and the comparison plots behind the table above.
+The notebook has the full model exploration: feature scaling, parameter tuning, and the comparison plots behind the table above.
 
 ### Project structure
 
@@ -116,10 +122,10 @@ AI_PredictiveMaintenance_dashboard/
 
 ## Notes
 
-The model is trained on one public dataset and reflects the sensor ranges in that data. It won't transfer to a different machine class without retraining. Sensor drift, concept drift over months of operation, and novel failure modes the training data doesn't cover are real limits — a production deployment would need periodic retraining and a feedback loop from the maintenance team.
+The model is trained on one public dataset and reflects the sensor ranges in that data. It won't transfer to a different machine class without retraining. Sensor drift, concept drift over months of operation, and failure modes missing from the training data are real limits. A production deployment would need periodic retraining and a feedback loop from the maintenance team.
 
 ## Contact
 
-Built by [Raka Adrianto](https://www.linkedin.com/in/lugasraka/?) — December 2025.
+Built by [Raka Adrianto](https://www.linkedin.com/in/lugasraka/?) in December 2025.
 
 Licensed under MIT. Contributions and issues welcome.
